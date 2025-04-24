@@ -10,6 +10,7 @@ function UserListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [companyFilter, setCompanyFilter] = useState(""); 
+  const [positionFilter, setPositionFilter] = useState(""); 
 
   useEffect(() => {
     fetchUsers();
@@ -32,10 +33,20 @@ function UserListPage() {
   };
 
   // Filter users by the entered company name
-  const handleFilter = () => {
+  const handleFilterCompany = () => {
     if (companyFilter) {
       const filtered = users.filter((user) =>
         user.company.toLowerCase().includes(companyFilter.toLowerCase())
+      );
+      setFilteredUsers(filtered); // Set filtered users, not the companyFilter state
+    } else {
+      setFilteredUsers(users); // If no filter, show all users
+    }
+  };
+  const handleFilterPosition = () => {
+    if (positionFilter) {
+      const filtered = users.filter((user) =>
+        user.position.toLowerCase().includes(positionFilter.toLowerCase())
       );
       setFilteredUsers(filtered); // Set filtered users, not the companyFilter state
     } else {
@@ -71,6 +82,7 @@ function UserListPage() {
         </Table.Root> */}
         <Box mb={4}>
             <Input
+            width={"500px"}
               placeholder="Enter company name"
               css={{ "--focus-color": "green" }}
               value={companyFilter}
@@ -78,8 +90,22 @@ function UserListPage() {
             />
             <br></br>
             <br></br>
-            <Button variant={"surface"} colorPalette={"cyan"} size={"xl"} onClick={handleFilter}>
-              Filter
+            <Button variant={"surface"} colorPalette={"cyan"} size={"xl"} onClick={handleFilterCompany}>
+              Filter by Company 
+            </Button>
+          </Box>
+          <Box mb={4}>
+            <Input
+            width={"500px"}
+              placeholder="Enter position name"
+              css={{ "--focus-color": "green" }}
+              value={positionFilter}
+              onChange={(e) => setPositionFilter(e.target.value)} // Update companyFilter state
+            />
+            <br></br>
+            <br></br>
+            <Button variant={"surface"} colorPalette={"cyan"} size={"xl"} onClick={handleFilterPosition}>
+              Filter by Position 
             </Button>
           </Box>
           {/* Table displaying filtered users */}
