@@ -44,7 +44,7 @@ function UserListPage() {
     }
   };
   const handleFilterPosition = () => {
-    if (positionFilter) {
+    if (positionFilter.trim()) {
       const filtered = users.filter((user) =>
         user.position.toLowerCase().includes(positionFilter.toLowerCase())
       );
