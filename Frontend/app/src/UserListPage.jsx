@@ -1,50 +1,50 @@
-import React , {useState,useEffect, use} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Stack, Table } from "@chakra-ui/react"
+import { Stack, Table, Input, Box, Button } from "@chakra-ui/react";
 
+export const url = "http://localhost:8000";
 
-export const url = "http://localhost:8000"
+function UserListPage() {
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [companyFilter, setCompanyFilter] = useState(""); // State for the company name input
 
-function UserListPage(){
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("")
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
-    useEffect(() => {
-        fetchUsers();
-    }, [])
+  const fetchUsers = () => {
+    setLoading(true);
+    axios
+      .get(`${url}/api/users/`)
+      .then((result) => {
+        setUsers(result.data);
+        setFilteredUsers(result.data); // Initialize filtered users with all users
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError("Failed to fetch");
+        setLoading(false);
+        console.log(error);
+      });
+  };
 
-    const fetchUsers = () => {
-        setLoading(true)
-        axios.get(`${url}/api/users/`)
-        .then(result => {
-            setUsers(result.data);
-            setLoading(false)
-        })
-        .catch(error => {
-            setError("Failed to fetch");
-            setLoading(false)
-            console.log(error)
-        })
+  // Filter users by the entered company name
+  const handleFilter = () => {
+    if (companyFilter) {
+      const filtered = users.filter((user) =>
+        user.company.toLowerCase().includes(companyFilter.toLowerCase())
+      );
+      setFilteredUsers(filtered); // Set filtered users, not the companyFilter state
+    } else {
+      setFilteredUsers(users); // If no filter, show all users
     }
-    return (
-    //     <div style={{ maxWidth: "500px", margin: "40px auto" }}>
-    //   <h2>User List</h2>
+  };
 
-    //   {loading ? (
-    //     <p>Loading...</p>
-    //   ) : error ? (
-    //     <p style={{ color: "red" }}>{error}</p>
-    //   ) : (
-    //     <ul>
-    //       {users.map((user) => (
-    //         <li key={user.id}>
-    //           {user.name} ({user.email})
-    //         </li>
-    //       ))}
-    //     </ul>
-    //   )}
-    //   </div>
+  return (
+    
     <Stack gap={"20"}>
         <Table.Root size={"lg"} striped showColumnBorder>
             <Table.Header>
@@ -69,10 +69,21 @@ function UserListPage(){
             </Table.Body>
 
         </Table.Root>
-
+        <Box mb={4}>
+            <Input
+              placeholder="Enter company name"
+              css={{ "--focus-color": "green" }}
+              value={companyFilter}
+              onChange={(e) => setCompanyFilter(e.target.value)} // Update companyFilter state
+            />
+            <br></br>
+            <br></br>
+            <Button variant={"surface"} colorPalette={"cyan"} size={"xl"} onClick={handleFilter}>
+              Filter
+            </Button>
+          </Box>
     </Stack>
     )
-    
 }
 
 export default UserListPage;
