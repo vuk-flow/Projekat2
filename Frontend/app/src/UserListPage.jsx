@@ -34,9 +34,10 @@ function UserListPage() {
 
   // Filter users by the entered company name
   const handleFilterCompany = () => {
-    if (companyFilter) {
+    const trimmed = companyFilter.trim();
+    if (trimmed.length > 0) {
       const filtered = users.filter((user) =>
-        user.company.toLowerCase().includes(companyFilter.toLowerCase())
+        user.company.toLowerCase().includes(trimmed.toLowerCase())
       );
       setFilteredUsers(filtered); // Set filtered users, not the companyFilter state
     } else {
@@ -44,9 +45,10 @@ function UserListPage() {
     }
   };
   const handleFilterPosition = () => {
-    if (positionFilter.trim()) {
+    const trimmed = positionFilter.trim();
+    if (trimmed.length > 0) {
       const filtered = users.filter((user) =>
-        user.position.toLowerCase().includes(positionFilter.toLowerCase())
+        user.position.toLowerCase().includes(trimmed.toLowerCase())
       );
       setFilteredUsers(filtered); // Set filtered users, not the companyFilter state
     } else {
