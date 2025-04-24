@@ -9,7 +9,8 @@ function App() {
   
   return (
     <Router>
-      <h1>Users listing</h1>
+      <h1>Users table</h1>
+      <br></br>
       <Routes>
       <Route path="/" element={<UserListPage />} />
       </Routes>
