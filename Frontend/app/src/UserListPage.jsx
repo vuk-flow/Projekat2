@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Stack, Table, Input, Box, Button } from "@chakra-ui/react";
+import { Stack, Table, Input, Box, Button , Text} from "@chakra-ui/react";
 
 export const url = "http://localhost:8000";
 
@@ -9,7 +9,7 @@ function UserListPage() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [companyFilter, setCompanyFilter] = useState(""); // State for the company name input
+  const [companyFilter, setCompanyFilter] = useState(""); 
 
   useEffect(() => {
     fetchUsers();
@@ -46,7 +46,7 @@ function UserListPage() {
   return (
     
     <Stack gap={"20"}>
-        <Table.Root size={"lg"} striped showColumnBorder>
+        {/* <Table.Root size={"lg"} striped showColumnBorder>
             <Table.Header>
                 <Table.Row>
                     <Table.ColumnHeader>Name</Table.ColumnHeader>
@@ -68,7 +68,7 @@ function UserListPage() {
                 ))}
             </Table.Body>
 
-        </Table.Root>
+        </Table.Root> */}
         <Box mb={4}>
             <Input
               placeholder="Enter company name"
@@ -82,6 +82,33 @@ function UserListPage() {
               Filter
             </Button>
           </Box>
+          {/* Table displaying filtered users */}
+          {filteredUsers.length === 0 ? (
+            <Text>No users found for the given company.</Text>
+          ) : (
+            <Table.Root size={"lg"}>
+              <Table.Header>
+                <Table.Row>
+                    <Table.ColumnHeader>Name</Table.ColumnHeader>
+                    <Table.ColumnHeader>Email</Table.ColumnHeader>
+                    <Table.ColumnHeader textAlign={"center"}>Company</Table.ColumnHeader>
+                    <Table.ColumnHeader textAlign={"center"}>Age</Table.ColumnHeader>
+                    <Table.ColumnHeader textAlign={"center"}>Position</Table.ColumnHeader>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {filteredUsers.map((user) => (
+                  <Table.Row key={user.id}>
+                  <Table.Cell>{user.name}</Table.Cell>
+                  <Table.Cell>{user.email}</Table.Cell>
+                  <Table.Cell textAlign={"center"}>{user.company}</Table.Cell>
+                  <Table.Cell textAlign={"center"}>{user.age}</Table.Cell>
+                  <Table.Cell textAlign={"center"}>{user.position}</Table.Cell>
+              </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Root>
+          )}
     </Stack>
     )
 }
