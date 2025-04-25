@@ -60,31 +60,9 @@ function UserListPage() {
 
   return (
     
-    <Stack  gap={"20"}>
-        {/* <Table.Root size={"lg"} striped showColumnBorder>
-            <Table.Header>
-                <Table.Row>
-                    <Table.ColumnHeader>Name</Table.ColumnHeader>
-                    <Table.ColumnHeader>Email</Table.ColumnHeader>
-                    <Table.ColumnHeader textAlign={"center"}>Company</Table.ColumnHeader>
-                    <Table.ColumnHeader textAlign={"center"}>Age</Table.ColumnHeader>
-                    <Table.ColumnHeader textAlign={"center"}>Position</Table.ColumnHeader>
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                {users.map((user) => (
-                    <Table.Row key={user.id}>
-                        <Table.Cell>{user.name}</Table.Cell>
-                        <Table.Cell>{user.email}</Table.Cell>
-                        <Table.Cell textAlign={"center"}>{user.company}</Table.Cell>
-                        <Table.Cell textAlign={"center"}>{user.age}</Table.Cell>
-                        <Table.Cell textAlign={"center"}>{user.position}</Table.Cell>
-                    </Table.Row>
-                ))}
-            </Table.Body>
-
-        </Table.Root> */}
-        <Box mb={4}>
+    <Stack  gap={"10"}>
+        
+        <Box mb={20} >
             <Input
             backgroundColor={"input_bgcolor"}
               color={"input_color"}
@@ -96,6 +74,8 @@ function UserListPage() {
             />
             <br></br>
             <br></br>
+            <Button visual={"solid"} size={"lg"} onClick={handleFilterCompany}>Filter by company</Button>
+            
             
           </Box>
           <Box mb={4}>
@@ -107,6 +87,7 @@ function UserListPage() {
               css={{ "--focus-color": "red" }}
               value={positionFilter}
               onChange={(e) => setPositionFilter(e.target.value)} // Update companyFilter state
+              
             />
             <br></br>
             <br></br>
