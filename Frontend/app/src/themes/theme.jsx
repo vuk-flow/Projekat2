@@ -6,9 +6,11 @@ const customConfig = defineConfig({
             backgroundColor:"green",
             fontFamily:"monospace",
             fontSize:"medium",
+            padding:"20px"
         }
     },
     theme: {
+        
         tokens: {
             colors: {
                 brand: {
@@ -23,9 +25,7 @@ const customConfig = defineConfig({
                     800: "#822727",
                     900: "#63171B",
                 },
-            button_bgcolor: {
-                value:"yellow",
-            },
+            
             input_bgcolor: {
                 value: "white",
             },

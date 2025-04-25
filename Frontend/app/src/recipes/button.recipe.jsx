@@ -1,18 +1,17 @@
-import { defineRecipe } from "@chakra-ui/react";
+import { defineRecipe } from "@chakra-ui/react"
 
 export const buttonRecipe = defineRecipe({
-    base:{
-        display:"flex",
+  base: {
+    display: "flex",
+  },
+  variants: {
+    visual: {
+      solid: { backgroundColor: "white", color: "green" },
+      outline: { borderWidth: "1px", borderColor: "red.200" },
     },
-    variants:{
-        visual:{
-            solid: {backgroundColor:"red", color: "white"},
-            outline: {borderWidth:"20px" ,borderColor: "red.200"},
-        },
-        size: {
-            sm: {padding:"4", fontSize: "20px"},
-            lg: {padding: "8", fontSize: "24px"},
-        },
+    size: {
+      sm: { padding: "14px", fontSize: "12px", },
+      lg: { padding: "17px", fontSize: "12px" ,borderRadius:"20px", fontWeight:"bold", cursor:"pointer"},
     },
+  },
 })
-

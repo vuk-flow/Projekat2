@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Stack, Table, Input, Box , Text} from "@chakra-ui/react";
-import { system } from "./themes/theme";
 import { Button } from "./recipes/button";
+
 
 export const url = "http://localhost:8000";
 
@@ -96,9 +96,7 @@ function UserListPage() {
             />
             <br></br>
             <br></br>
-            <Button variant={"surface"} color={"black"} backgroundColor={"button_bgcolor"} size={"xl"} onClick={handleFilterCompany}>
-              Filter by Company 
-            </Button>
+            
           </Box>
           <Box mb={4}>
             <Input
@@ -112,9 +110,7 @@ function UserListPage() {
             />
             <br></br>
             <br></br>
-            <Button variant={"subtle"} color={"black"} backgroundColor={"button_bgcolor"}  size={"xl"} onClick={handleFilterPosition}>
-              Filter by Position 
-            </Button>
+            <Button visual={"solid"} size={"lg"} onClick={handleFilterPosition}>Filter by position</Button>
           </Box>
           {/* Table displaying filtered users */}
           {filteredUsers.length === 0 ? (
