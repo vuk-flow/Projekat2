@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Stack, Table, Input, Box, Button , Text} from "@chakra-ui/react";
+import { Stack, Table, Input, Box , Text} from "@chakra-ui/react";
+import { system } from "./themes/theme";
+import { Button } from "./recipes/button";
 
 export const url = "http://localhost:8000";
 
@@ -58,7 +60,7 @@ function UserListPage() {
 
   return (
     
-    <Stack gap={"20"}>
+    <Stack  gap={"20"}>
         {/* <Table.Root size={"lg"} striped showColumnBorder>
             <Table.Header>
                 <Table.Row>
@@ -84,29 +86,33 @@ function UserListPage() {
         </Table.Root> */}
         <Box mb={4}>
             <Input
-            width={"500px"}
+            backgroundColor={"input_bgcolor"}
+              color={"input_color"}
+              width={"500px"}
               placeholder="Enter company name"
-              css={{ "--focus-color": "green" }}
+              css={{ "--focus-color": "red" }}
               value={companyFilter}
               onChange={(e) => setCompanyFilter(e.target.value)} // Update companyFilter state
             />
             <br></br>
             <br></br>
-            <Button variant={"surface"} colorPalette={"cyan"} size={"xl"} onClick={handleFilterCompany}>
+            <Button variant={"surface"} color={"black"} backgroundColor={"button_bgcolor"} size={"xl"} onClick={handleFilterCompany}>
               Filter by Company 
             </Button>
           </Box>
           <Box mb={4}>
             <Input
+            backgroundColor={"input_bgcolor"}
+            color={"input_color"}
             width={"500px"}
               placeholder="Enter position name"
-              css={{ "--focus-color": "green" }}
+              css={{ "--focus-color": "red" }}
               value={positionFilter}
               onChange={(e) => setPositionFilter(e.target.value)} // Update companyFilter state
             />
             <br></br>
             <br></br>
-            <Button variant={"surface"} colorPalette={"cyan"} size={"xl"} onClick={handleFilterPosition}>
+            <Button variant={"subtle"} color={"black"} backgroundColor={"button_bgcolor"}  size={"xl"} onClick={handleFilterPosition}>
               Filter by Position 
             </Button>
           </Box>
@@ -114,7 +120,7 @@ function UserListPage() {
           {filteredUsers.length === 0 ? (
             <Text>No users found for the given company.</Text>
           ) : (
-            <Table.Root size={"lg"}>
+            <Table.Root size={"lg"} striped showColumnBorder>
               <Table.Header>
                 <Table.Row>
                     <Table.ColumnHeader>Name</Table.ColumnHeader>
