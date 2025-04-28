@@ -11,7 +11,7 @@ function App() {
   
   return (
     <Router>
-      <Heading size={"6xl"}>User Table</Heading>
+      <Heading size={"6xl"}>User Table Update</Heading>
       <br></br>
       <Routes>
       <Route path="/" element={<UserListPage />} />
