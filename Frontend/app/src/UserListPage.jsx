@@ -4,7 +4,7 @@ import { Stack, Table, Input, Box , Text} from "@chakra-ui/react";
 import { Button } from "./recipes/button";
 
 
-export const url = "http://localhost:8000";
+export const url = "http://localhost:5555";
 
 function UserListPage() {
   const [users, setUsers] = useState([]);
@@ -13,6 +13,8 @@ function UserListPage() {
   const [error, setError] = useState("");
   const [companyFilter, setCompanyFilter] = useState(""); 
   const [positionFilter, setPositionFilter] = useState(""); 
+  const [editingUserId, setEditingUserId] = useState(null);
+
 
   useEffect(() => {
     fetchUsers();
@@ -33,6 +35,8 @@ function UserListPage() {
         console.log(error);
       });
   };
+
+
 
   // Filter users by the entered company name
   const handleFilterCompany = () => {
@@ -57,6 +61,31 @@ function UserListPage() {
       setFilteredUsers(users); // If no filter, show all users
     }
   };
+
+  const handleInputChange = (e, userId, field) => {
+    const newValue = e.target.value;
+    setFilteredUsers(prev =>
+      prev.map(user =>
+        user.id === userId ? { ...user, [field]: newValue } : user
+      )
+    );
+  };
+
+
+  const handleSave = (userId) => {
+    const userToUpdate = filteredUsers.find(u => u.id === userId);
+  
+    axios.put(`${url}/api/users/${userId}/`, userToUpdate)
+      .then(() => {
+        setEditingUserId(null);
+        fetchUsers(); // Refresh with updated data
+      })
+      .catch((err) => {
+        console.error("Failed to save user:", err);
+        // Optional: add error handling UI
+      });
+  };
+  
 
   return (
     
@@ -110,11 +139,58 @@ function UserListPage() {
               <Table.Body>
                 {filteredUsers.map((user) => (
                   <Table.Row key={user.id}>
-                  <Table.Cell>{user.name}</Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell textAlign={"center"}>{user.company}</Table.Cell>
-                  <Table.Cell textAlign={"center"}>{user.age}</Table.Cell>
-                  <Table.Cell textAlign={"center"}>{user.position}</Table.Cell>
+                  <Table.Cell>{editingUserId === user.id ? (
+          <Input
+            size="sm"
+            value={user.name}
+            onChange={(e) => handleInputChange(e, user.id, 'name')}
+          />
+        ) : (
+          user.name
+        )}</Table.Cell>
+                  <Table.Cell>{editingUserId === user.id ? (
+          <Input
+            size="sm"
+            value={user.email}
+            onChange={(e) => handleInputChange(e, user.id, 'email')}
+          />
+        ) : (
+          user.email
+        )}</Table.Cell>
+                  <Table.Cell textAlign={"center"}>{editingUserId === user.id ? (
+          <Input
+            size="sm"
+            value={user.company}
+            onChange={(e) => handleInputChange(e, user.id, 'company')}
+          />
+        ) : (
+          user.company
+        )}</Table.Cell>
+                  <Table.Cell textAlign={"center"}>{editingUserId === user.id ? (
+          <Input
+            size="sm"
+            value={user.age}
+            onChange={(e) => handleInputChange(e, user.id, 'age')}
+          />
+        ) : (
+          user.age
+        )}</Table.Cell>
+                  <Table.Cell textAlign={"center"}>{editingUserId === user.id ? (
+          <Input
+            size="sm"
+            value={user.position}
+            onChange={(e) => handleInputChange(e, user.id, 'position')}
+          />
+        ) : (
+          user.position
+        )}</Table.Cell>
+        <Table.Cell textAlign={"center"}>
+  {editingUserId === user.id ? (
+    <Button size="sm" onClick={() => handleSave(user.id) } cursor={"pointer"}>Save</Button>
+  ) : (
+    <Button size="sm" onClick={() => setEditingUserId(user.id) } cursor={"pointer"}>Edit</Button>
+  )}
+</Table.Cell>
               </Table.Row>
                 ))}
               </Table.Body>

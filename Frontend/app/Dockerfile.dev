@@ -1,0 +1,17 @@
+# Development Dockerfile
+FROM node:18
+
+WORKDIR /app
+
+# Copy package.json and package-lock.json first to leverage Docker caching
+COPY package*.json ./
+RUN npm install
+
+# Then copy the rest of the application
+COPY . .
+
+EXPOSE 5173
+
+ENV CHOKIDAR_USEPOLLING=true
+
+CMD ["npm", "run" ,"dev"]

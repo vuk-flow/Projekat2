@@ -1,0 +1,57 @@
+version: '3.8'
+
+volumes:
+    db_data:
+
+networks:
+  dev_network:
+
+services:
+  frontend:
+    build: 
+      context: ./Frontend/app/
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - dev_network
+    volumes:
+      - ./Frontend/app/src:/app/src
+
+    
+
+  backend:
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5555:5555"
+    environment:
+      DB_HOST: localhost
+      DB_PORT: 3307
+      DB_USER: root
+      DB_PASSWORD: root1234
+      DB_NAME: testbaza
+    depends_on:
+      - db
+    networks:
+      - dev_network
+    volumes:
+      - ./Backend:/app
+    
+
+
+  db:
+    image: mysql:8.1.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: testbaza
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - dev_network
